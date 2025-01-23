@@ -37,12 +37,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["127.0.0.1", "vercel.app"]
-# ALLOWED_HOSTS = [
-#     '127.0.0.1',
-#     'localhost',
-# ]
-
+# ALLOWED_HOSTS = ["127.0.0.1", "vercel.app"]
+ALLOWED_HOSTS = [
+    'localhost',
+    '127.0.0.1',
+    'job-project-ole9qaqvd-nahids-projects-67ddc54a.vercel.app',
+]
 
 CORS_ALLOW_ALL_ORIGINS = True
 
