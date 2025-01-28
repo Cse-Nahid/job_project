@@ -2,6 +2,8 @@ from rest_framework import serializers
 from django.contrib.auth import get_user_model
 from django.core.validators import MinValueValidator
 from .models import JobSeekerProfile
+from django import forms
+from .models import CustomUser
 
 User = get_user_model()
 
@@ -35,6 +37,7 @@ class JobSeekerRegistrationSerializer(serializers.ModelSerializer):
             'address', 'contact_no', 'sex', 'age', 'education', 'experience',
             'email', 'password', 'confirm_password'
         ]
+        user_type = forms.ChoiceField(choices=CustomUser.USER_TYPE_CHOICES)
 
     def save(self):
         validated_data = self.validated_data

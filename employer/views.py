@@ -63,45 +63,35 @@ class EmployerRegistrationAPIView(APIView):
     serializer_class = EmployerRegistrationSerializer
 
     def post(self, request):
-        # form er moto kore 'serialized_data' nie nilam
-        serialized_data = self.serializer_class(data = request.data)
+        serialized_data = self.serializer_class(data=request.data)
 
         if serialized_data.is_valid():
             user = serialized_data.save()
-            print(user)
 
-
-            # creating a token for the user
+            # Generate token and user ID
             token = default_token_generator.make_token(user)
-            print('token :', token)
-
-            # creating an unique url by using the decoded string of the users unique user id such as 'pk' 
             user_id = urlsafe_base64_encode(force_bytes(user.pk))
-            print('user_id :', user_id)
 
-            # creating a confirm link (using local domain)
-            # confirm_link = f'http://127.0.0.1:8000/employer/active/{user_id}/{token}/'
-            
-            # creating a confirm link (using live DRF domain)
-            confirm_link = f'https://jobhunt-z4ts.onrender.com/employer/active/{user_id}/{token}/'
-            
+            # Create confirmation link
+            confirm_link = f'https://job-project-delta.vercel.app/employer/active/{user_id}/{token}/'
 
-
-            # email sending implementation
+            # Prepare and send email
             email_subject = 'Confirm Your Account'
             email_body = render_to_string('employer_confirm_email.html', {
                 'user': user,
                 'confirm_link': confirm_link,
             })
 
-            email = EmailMultiAlternatives(email_subject, '', to = [user.email])
-            email.attach_alternative(email_body, 'text/html')
-            email.send()
-
+            try:
+                email = EmailMultiAlternatives(email_subject, '', to=[user.email])
+                email.attach_alternative(email_body, 'text/html')
+                email.send()
+            except Exception as e:
+                return Response({'error': 'Email sending failed.', 'details': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
             return Response({'message': 'Check your mail for confirmation.'}, status=status.HTTP_201_CREATED)
 
-
+        # Handle validation errors
         return Response(serialized_data.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -121,7 +111,7 @@ def activate(request, user_id, token):
         user.is_active = True
         user.save()
         # return redirect('user_login')
-        return redirect('http://127.0.0.1:5501/login.html')
+        return redirect('https://cse-nahid.github.io/jobs_fronted/employer/login.html')
     else:
         # er age response ba kono error message die deowa jete pare
         return redirect('employer_register')

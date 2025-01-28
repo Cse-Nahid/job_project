@@ -9,7 +9,6 @@ class CustomUser(AbstractUser):
         ('admin', 'Admin'),
         ('employer', 'Employer'),
         ('job_seeker', 'Job_seeker'),
-        ('viewer', 'Viewer'),
     )
-    
-    user_type = models.CharField(max_length = 20, choices = USER_TYPE_CHOICES, default = 'viewer')
+    is_active = models.BooleanField(default=False)
+    user_type = models.CharField(max_length = 20, choices = USER_TYPE_CHOICES)

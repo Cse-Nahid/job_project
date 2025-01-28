@@ -3,5 +3,5 @@ from .models import ContactUs
 # Register your models here.
 
 class ContactModelAdmin(admin.ModelAdmin):
-    list_display = ['name', 'phone', 'problem']
+    list_display = ['name', 'email', 'problem']
 admin.site.register(ContactUs, ContactModelAdmin)

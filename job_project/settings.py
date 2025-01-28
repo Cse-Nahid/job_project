@@ -255,6 +255,11 @@ CORS_ALLOW_ALL_ORIGINS = True
 REST_AUTH_REGISTER_SERIALIZERS = {
     'REGISTER_SERIALIZER': 'accounts.serializers.CustomRegisterSerializer',
 }
+REST_AUTH = {
+    'REGISTER_SERIALIZER': 'path.to.CustomRegisterSerializer',
+}
+
+
 
 SITE_ID = 1
 

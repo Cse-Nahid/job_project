@@ -2,7 +2,7 @@ from django.db import models
 
 class ContactUs(models.Model):
     name = models.CharField(max_length = 30)
-    phone = models.CharField(max_length = 12)
+    email = models.CharField(max_length = 12)
     problem = models.TextField()
     
     def __str__(self):

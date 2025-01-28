@@ -11,7 +11,7 @@ class CustomRegisterSerializer(RegisterSerializer):
         ('admin', 'Admin'),
         ('employer', 'Employer'),
         ('job_seeker', 'Job_seeker'),
-        ('viewer', 'Viewer'),
+        # ('viewer', 'Viewer'),
     )
     user_type = serializers.ChoiceField(choices=USER_TYPE_CHOICES)
 
@@ -21,11 +21,12 @@ class CustomRegisterSerializer(RegisterSerializer):
         print('heloooooooo --- > ',data['user_type'])
         return data
 
-    def save(self, request):
-        user = super().save(request)
-        user.user_type = self.cleaned_data.get('user_type')
-        user.save()
-        return user
+def save(self, request):
+    user = super().save(request)
+    user.user_type = self.validated_data.get('user_type')
+    user.save()
+    return user
+
 
 # creating login serializer
 class LoginSerializer(serializers.Serializer):
